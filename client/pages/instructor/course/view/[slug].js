@@ -35,7 +35,6 @@ const CourseView = () => {
 	const [opened, setOpened] = useState(false);
 	const [opened2, setOpened2] = useState(false);
 	const [uploading, setUploading] = useState(false);
-	const [progress, setProgress] = useState(0);
 	const [video, setVideo] = useState(null);
 	const [section, setSection] = useState(null);
 	const [students, setStudents] = useState(0);
@@ -79,6 +78,7 @@ const CourseView = () => {
 		});
 		setcourse(data);
 		setOpened(false);
+		form1.reset();
 	};
 
 	const addLesson = async values => {
@@ -92,6 +92,7 @@ const CourseView = () => {
 			setOpened2(false);
 			setcourse(data);
 			setSection(null);
+			setVideo(null);
 			toast.success("Lesson added", {
 				position: "top-right",
 				autoClose: 2000,
@@ -121,11 +122,7 @@ const CourseView = () => {
 			const videoData = new FormData();
 			videoData.append("video", file);
 
-			const { data } = await axios.post("/api/course/upload-video", videoData, {
-				onUploadProgress: e => {
-					setProgress(Math.round((100 * e.loaded) / e.total));
-				},
-			});
+			const { data } = await axios.post("/api/course/upload-video", videoData);
 
 			setVideo(data);
 			toast.success("Video uploaded successfully", {
@@ -159,7 +156,7 @@ const CourseView = () => {
 			await axios.post("/api/course/remove-video", video);
 
 			setVideo(null);
-			setProgress(0);
+
 			form2.values.video = "";
 
 			toast.success("Video removed successfully", {
@@ -413,7 +410,6 @@ const CourseView = () => {
 					form2={form2}
 					addLesson={addLesson}
 					uploading={uploading}
-					progress={progress}
 					uploadVideo={uploadVideo}
 					video={video}
 					removeVideo={removeVideo}

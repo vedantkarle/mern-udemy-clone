@@ -2,7 +2,6 @@ import {
 	Button,
 	FileInput,
 	Grid,
-	Progress,
 	Switch,
 	Textarea,
 	TextInput,
@@ -17,7 +16,6 @@ const AddLessonForm = ({
 	uploading,
 	uploadVideo,
 	video,
-	progress,
 	removeVideo,
 }) => {
 	const theme = useMantineTheme();
@@ -68,18 +66,11 @@ const AddLessonForm = ({
 					)}
 				</Grid.Col>
 			</Grid>
-			{progress > 0 && (
-				<Progress
-					mt={10}
-					value={progress}
-					label={`${progress}%`}
-					size='xl'
-					radius='xl'
-				/>
-			)}
+
 			<Switch
-				checked={form2.values.free_preview}
+				mt={10}
 				{...form2.getInputProps("free_preview")}
+				checked={form2.values.free_preview}
 				color='teal'
 				size='md'
 				label='Free Preview'
